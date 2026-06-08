@@ -2,82 +2,114 @@ import { GraduationCap, Award, BookOpen, Target } from 'lucide-react';
 
 const timeline = [
   {
-    icon: <GraduationCap size={20} className="text-blue-400" />,
-    period: '2023 – PRESENT',
+    Icon: GraduationCap,
+    period: '2023 – Present',
     title: 'Software Engineering Undergraduate',
-    type: 'UNIVERSITY DEGREE PROGRAM',
+    type: 'University Degree Program',
     description:
       'Focused on core engineering principles, algorithms, and distributed systems. Maintaining a high GPA while actively participating in tech clubs.',
+    color: 'var(--c-accent)',
+    bg: 'rgba(96,165,250,0.12)',
   },
   {
-    icon: <Award size={20} className="text-blue-400" />,
+    Icon: Award,
     period: '2024',
     title: 'Full Stack Development Specialization',
-    type: 'PROFESSIONAL CERTIFICATION',
+    type: 'Professional Certification',
     description:
       'In-depth study of modern web architectures, MERN stack, and cloud deployment strategies. Completed several enterprise-level capstone projects.',
+    color: 'var(--c-accent-2)',
+    bg: 'rgba(167,139,250,0.12)',
   },
   {
-    icon: <BookOpen size={20} className="text-blue-400" />,
+    Icon: BookOpen,
     period: '2024 – 2025',
     title: 'Self-Driven Data Science Journey',
-    type: 'ONLINE LEARNING & RESEARCH',
+    type: 'Online Learning & Research',
     description:
       'Exploring machine learning models, statistical analysis, and data visualization tools. Building a portfolio of data-centric applications.',
+    color: '#34d399',
+    bg: 'rgba(52,211,153,0.12)',
   },
   {
-    icon: <Target size={20} className="text-blue-400" />,
-    period: 'FUTURE GOALS',
+    Icon: Target,
+    period: 'Future Goals',
     title: 'AI & Scalable Architecture',
-    type: 'ASPIRATIONS',
+    type: 'Aspirations',
     description:
       'Aiming to bridge the gap between AI and Full Stack development, creating intelligent applications that solve complex real-world problems.',
+    color: '#f472b6',
+    bg: 'rgba(244,114,182,0.12)',
   },
 ];
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-28 px-6 bg-[#09090d] border-t border-[#1e1e2e]">
-      <div className="max-w-7xl mx-auto">
+    <section id="education" className="sec" style={{
+      padding: '100px 24px', background: 'var(--c-bg)',
+      borderTop: '1px solid var(--c-border)',
+    }}>
+      <div className="reveal" style={{ maxWidth: '1100px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="text-center mb-20">
-          <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-4">
-            My Journey
+        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+          <p style={{
+            color: 'var(--c-accent)', fontSize: '12px', fontWeight: '700',
+            letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px',
+          }}>
+            My Background
           </p>
-          <h2 className="text-4xl md:text-6xl font-bold text-white">
-            Education &amp; Progress
+          <h2 style={{
+            fontSize: 'clamp(28px, 5vw, 54px)', fontWeight: '800', color: 'var(--c-text)',
+          }}>
+            Education &amp; Academic Journey
           </h2>
         </div>
 
         {/* Timeline */}
-        <div className="max-w-3xl mx-auto">
-          {timeline.map((item, idx) => (
-            <div key={idx} className="flex gap-6 mb-12 last:mb-0 relative">
-              {/* Left: icon + vertical line */}
-              <div className="flex flex-col items-center">
-                {/* Circle icon */}
-                <div className="w-11 h-11 rounded-full bg-[#111118] border border-[#2d2d4d] flex items-center justify-center flex-shrink-0 z-10">
-                  {item.icon}
-                </div>
-                {/* Vertical line (except last) */}
-                {idx < timeline.length - 1 && (
-                  <div className="flex-1 w-px bg-[#1e1e2e] mt-3" />
-                )}
-              </div>
+        <div className="edu-timeline">
+          {timeline.map(({ Icon, period, title, type, description, color, bg }, idx) => (
+            <div key={idx} className={`edu-item${idx % 2 === 1 ? ' right' : ''}`}>
+              {/* Dot on center line */}
+              <div className="edu-dot" style={{ background: color }} />
 
-              {/* Right: content */}
-              <div className="pb-2 pt-1">
-                <p className="text-blue-400 text-xs font-bold tracking-widest uppercase mb-1">
-                  {item.period}
-                </p>
-                <h3 className="text-xl font-bold text-white mb-1">
-                  {item.title}
+              {/* Card */}
+              <div className="edu-card">
+                {/* Icon + date row */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '18px' }}>
+                  <div style={{
+                    width: '48px', height: '48px', borderRadius: '14px',
+                    background: bg, display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', flexShrink: 0,
+                  }}>
+                    <Icon size={22} color={color} />
+                  </div>
+                  <span style={{
+                    fontSize: '12px', fontWeight: '700', color: color,
+                    letterSpacing: '2px', textTransform: 'uppercase',
+                  }}>
+                    {period}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 style={{
+                  fontSize: '18px', fontWeight: '700', color: 'var(--c-text)',
+                  marginBottom: '6px', lineHeight: '1.35',
+                }}>
+                  {title}
                 </h3>
-                <p className="text-gray-500 text-xs font-semibold tracking-widest uppercase mb-3">
-                  {item.type}
+
+                {/* Subtitle */}
+                <p style={{
+                  fontSize: '11px', fontWeight: '700', color: 'var(--c-text-3)',
+                  letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '14px',
+                }}>
+                  {type}
                 </p>
-                <p className="text-gray-400 leading-relaxed">
-                  {item.description}
+
+                {/* Description */}
+                <p style={{ color: 'var(--c-text-2)', lineHeight: '1.8', fontSize: '14px' }}>
+                  {description}
                 </p>
               </div>
             </div>
