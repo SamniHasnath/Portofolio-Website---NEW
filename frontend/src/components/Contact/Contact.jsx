@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, MapPin, Send } from 'lucide-react';
+import { createRipple } from '../../utils/ripple';
 
 const LinkedinIcon = () => (
   <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -8,33 +9,16 @@ const LinkedinIcon = () => (
 );
 
 const contactInfo = [
-  {
-    icon: <Mail size={20} className="text-blue-400" />,
-    label: 'EMAIL ME',
-    value: 'hello@samni.dev',
-    href: 'mailto:hello@samni.dev',
-  },
-  {
-    icon: <LinkedinIcon />,
-    label: 'LINKEDIN',
-    value: 'linkedin.com/in/samni',
-    href: 'https://linkedin.com/in/samni',
-  },
-  {
-    icon: <MapPin size={20} className="text-blue-400" />,
-    label: 'LOCATION',
-    value: 'Colombo, Sri Lanka',
-    href: null,
-  },
+  { icon: <Mail size={20} />, label: 'Email Me', value: 'hello@samni.dev', href: 'mailto:hello@samni.dev' },
+  { icon: <LinkedinIcon />,   label: 'LinkedIn',  value: 'linkedin.com/in/samni', href: 'https://linkedin.com/in/samni' },
+  { icon: <MapPin size={20} />, label: 'Location', value: 'Colombo, Sri Lanka', href: null },
 ];
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('');
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,59 +29,78 @@ export default function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (res.ok) {
-        setStatus('success');
-        setForm({ name: '', email: '', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
+      if (res.ok) { setStatus('success'); setForm({ name: '', email: '', message: '' }); }
+      else setStatus('error');
+    } catch { setStatus('error'); }
+  };
+
+  const fieldStyle = {
+    width: '100%', padding: '14px 16px',
+    background: 'var(--c-input)', border: '1px solid var(--c-border-md)',
+    borderRadius: '12px', color: 'var(--c-text)', fontSize: '14px',
+    outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.2s', fontFamily: 'inherit',
   };
 
   return (
-    <section
-      id="contact"
-      className="py-28 px-6 bg-[#09090d] border-t border-[#1e1e2e]"
-    >
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
-
-        {/* ── Left — Info (CENTERED) ── */}
-        <div className="flex flex-col items-center text-center">
-          <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-5">
+    <section id="contact" className="sec" style={{
+      padding: '100px 24px', background: 'var(--c-bg)',
+      borderTop: '1px solid var(--c-border)',
+    }}>
+      <div className="reveal" style={{
+        maxWidth: '1100px', margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '60px', alignItems: 'start',
+      }}>
+        {/* Left — Info */}
+        <div>
+          <p style={{
+            color: 'var(--c-accent)', fontSize: '12px', fontWeight: '700',
+            letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px',
+          }}>
             Contact Me
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
-            Let's work together
-            <br />
-            on your next project
+          <h2 style={{
+            fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: '800',
+            color: 'var(--c-text)', lineHeight: '1.2', marginBottom: '16px',
+          }}>
+            Let's work together<br />on your next project
           </h2>
-          <p className="text-gray-400 leading-relaxed mb-10 max-w-sm">
+          <p style={{ color: 'var(--c-text-2)', lineHeight: '1.8', marginBottom: '36px', maxWidth: '380px' }}>
             I'm always open to discussing new projects, creative ideas or
             opportunities to be part of your visions.
           </p>
 
-          {/* Contact items — icon + text, centered */}
-          <div className="space-y-5 w-full max-w-xs">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {contactInfo.map((info) => (
-              <div key={info.label} className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#111118] border border-[#1e1e2e] flex items-center justify-center flex-shrink-0 text-blue-400">
+              <div key={info.label} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{
+                  width: '48px', height: '48px', borderRadius: '12px',
+                  background: 'var(--c-card)', border: '1px solid var(--c-border)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, color: 'var(--c-accent)',
+                }}>
                   {info.icon}
                 </div>
-                <div className="text-left">
-                  <p className="text-gray-500 text-xs font-semibold tracking-widest uppercase mb-0.5">
+                <div>
+                  <p style={{
+                    color: 'var(--c-text-3)', fontSize: '11px', fontWeight: '700',
+                    letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '3px',
+                  }}>
                     {info.label}
                   </p>
                   {info.href ? (
-                    <a
-                      href={info.href}
-                      className="text-white font-medium hover:text-blue-400 transition-colors"
+                    <a href={info.href} style={{
+                      color: 'var(--c-text)', fontWeight: '500', textDecoration: 'none',
+                      transition: 'color 0.2s',
+                    }}
+                      onMouseEnter={e => (e.currentTarget.style.color = 'var(--c-accent)')}
+                      onMouseLeave={e => (e.currentTarget.style.color = 'var(--c-text)')}
                     >
                       {info.value}
                     </a>
                   ) : (
-                    <p className="text-white font-medium">{info.value}</p>
+                    <p style={{ color: 'var(--c-text)', fontWeight: '500' }}>{info.value}</p>
                   )}
                 </div>
               </div>
@@ -105,53 +108,49 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* ── Right — Form ── */}
-        <div className="bg-[#111118] border border-[#1e1e2e] rounded-2xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                placeholder="Your Name"
-                className="w-full px-4 py-3.5 bg-[#1a1a26] border border-[#2d2d3d] rounded-xl text-white placeholder-gray-500 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-              />
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                placeholder="Email Address"
-                className="w-full px-4 py-3.5 bg-[#1a1a26] border border-[#2d2d3d] rounded-xl text-white placeholder-gray-500 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-              />
+        {/* Right — Form */}
+        <div style={{
+          background: 'var(--c-card)', border: '1px solid var(--c-border)',
+          borderRadius: '20px', padding: '32px',
+        }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="contact-fields" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <input type="text" name="name" value={form.name} onChange={handleChange}
+                required placeholder="Your Name" style={fieldStyle}
+                onFocus={e => (e.target.style.borderColor = 'var(--c-accent)')}
+                onBlur={e => (e.target.style.borderColor = 'var(--c-border-md)')} />
+              <input type="email" name="email" value={form.email} onChange={handleChange}
+                required placeholder="Email Address" style={fieldStyle}
+                onFocus={e => (e.target.style.borderColor = 'var(--c-accent)')}
+                onBlur={e => (e.target.style.borderColor = 'var(--c-border-md)')} />
             </div>
-            <textarea
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              required
-              rows={6}
-              placeholder="Your Message"
-              className="w-full px-4 py-3.5 bg-[#1a1a26] border border-[#2d2d3d] rounded-xl text-white placeholder-gray-500 text-sm focus:outline-none focus:border-blue-500 transition-colors resize-none"
-            />
-            <button
-              type="submit"
-              disabled={status === 'sending'}
-              className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-100 disabled:opacity-50 transition-colors inline-flex items-center justify-center gap-2 text-sm"
+            <textarea name="message" value={form.message} onChange={handleChange}
+              required rows={6} placeholder="Your Message"
+              style={{ ...fieldStyle, resize: 'none' }}
+              onFocus={e => (e.target.style.borderColor = 'var(--c-accent)')}
+              onBlur={e => (e.target.style.borderColor = 'var(--c-border-md)')} />
+            <button type="submit" disabled={status === 'sending'} className="ripple-host" onClick={createRipple} style={{
+              padding: '16px', background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+              color: '#ffffff', border: 'none', borderRadius: '12px',
+              fontWeight: '700', fontSize: '14px',
+              cursor: status === 'sending' ? 'not-allowed' : 'pointer',
+              opacity: status === 'sending' ? '0.5' : '1',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              transition: 'opacity 0.2s', fontFamily: 'inherit',
+            }}
+              onMouseEnter={e => { if (status !== 'sending') e.currentTarget.style.opacity = '0.85'; }}
+              onMouseLeave={e => (e.currentTarget.style.opacity = status === 'sending' ? '0.5' : '1')}
             >
               Send Message <Send size={16} />
             </button>
 
             {status === 'success' && (
-              <p className="text-center text-green-400 text-sm font-medium">
+              <p style={{ textAlign: 'center', color: '#34d399', fontSize: '14px', fontWeight: '500' }}>
                 ✅ Message sent successfully!
               </p>
             )}
             {status === 'error' && (
-              <p className="text-center text-red-400 text-sm font-medium">
+              <p style={{ textAlign: 'center', color: '#f87171', fontSize: '14px', fontWeight: '500' }}>
                 ❌ Something went wrong. Please try again.
               </p>
             )}
