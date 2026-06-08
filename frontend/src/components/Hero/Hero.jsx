@@ -1,67 +1,160 @@
-import { ArrowRight, Download, ImageIcon } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowRight, Download } from 'lucide-react';
+import { createRipple } from '../../utils/ripple';
+
+const roles = [
+  'Data Scientist',
+  'Full Stack Developer',
+  'ML Engineer',
+  'Problem Solver',
+];
+
+function AnimatedRole() {
+  const [index, setIndex] = useState(0);
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex(i => (i + 1) % roles.length);
+      setTick(t => t + 1);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const next = () => {
+    setIndex(i => (i + 1) % roles.length);
+    setTick(t => t + 1);
+  };
+
+  return (
+    <span
+      key={tick}
+      className="animated-word"
+      onClick={next}
+      title="Click to cycle"
+    >
+      {roles[index]}
+    </span>
+  );
+}
 
 export default function Hero() {
   return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center pt-20 pb-16 px-6 bg-[#09090d]"
-    >
-      <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
-        {/* Left content */}
-        <div>
-          {/* Available badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#1e1e2e] bg-[#111118] text-sm text-gray-300 mb-8">
-            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+    <section id="home" className="sec" style={{
+      minHeight: '100vh', display: 'flex', alignItems: 'center',
+      justifyContent: 'center', padding: '100px 24px 60px',
+      background: 'var(--c-bg)', position: 'relative',
+    }}>
+      <div className="hero-inner" style={{
+        maxWidth: '1100px', width: '100%', margin: '0 auto',
+        display: 'flex', alignItems: 'center', gap: '60px',
+        flexWrap: 'wrap', justifyContent: 'center',
+      }}>
+        {/* Text */}
+        <div className="hero-text" style={{ flex: '1', minWidth: '300px', maxWidth: '560px' }}>
+          {/* Badge */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            padding: '8px 18px', borderRadius: '999px',
+            border: '1px solid var(--c-border-dark)',
+            background: 'var(--c-card)', color: 'var(--c-text-2)',
+            fontSize: '13px', marginBottom: '28px',
+          }}>
+            <span style={{
+              width: '8px', height: '8px', borderRadius: '50%',
+              background: 'var(--c-accent)', display: 'inline-block',
+              animation: 'pulse 2s infinite',
+            }} />
             Available for new opportunities
           </div>
 
-          {/* Name */}
-          <h1 className="text-6xl md:text-7xl font-bold text-white leading-tight mb-4">
-            I am
-            <br />
-            Samni Hasnath
+          <h1 style={{
+            fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: '800',
+            color: 'var(--c-text)', lineHeight: '1.1', marginBottom: '16px',
+          }}>
+            Hi, I'm<br />
+            <span style={{ color: 'var(--c-accent)' }}>Samni Hasnath</span>
           </h1>
 
-          {/* Role gradient */}
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent leading-snug">
-            Aspiring Data Scientist &amp; Full Stack
-            <br />
-            Developer
+          <h2 style={{
+            fontSize: 'clamp(17px, 2.2vw, 24px)', fontWeight: '600',
+            color: 'var(--c-text-2)', marginBottom: '20px', lineHeight: '1.5',
+          }}>
+            Aspiring{' '}
+            <span style={{ color: 'var(--c-accent-2)' }}>
+              <AnimatedRole />
+            </span>
           </h2>
 
-          {/* Description */}
-          <p className="text-gray-400 text-lg leading-relaxed mb-10 max-w-lg">
+          <p style={{
+            color: 'var(--c-text-2)', fontSize: '16px', lineHeight: '1.8',
+            marginBottom: '36px', maxWidth: '480px',
+          }}>
             Building scalable applications and deriving insights from data.
-            Currently focused on the intersection of Machine Learning and Full
-            Stack development.
+            Currently focused on the intersection of Machine Learning and Full Stack development.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-black font-semibold hover:bg-gray-100 transition-colors"
+          <div className="hero-btns" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <a href="#projects" className="ripple-host" onClick={createRipple} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '14px 28px', borderRadius: '999px',
+              background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+              color: '#ffffff', fontWeight: '600', fontSize: '14px',
+              textDecoration: 'none', transition: 'opacity 0.2s',
+            }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
             >
-              View Projects <ArrowRight size={18} />
+              View Projects <ArrowRight size={16} />
             </a>
-            <a
-              href="/cv.pdf"
-              download
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#1a1a26] border border-[#2d2d3d] text-white font-semibold hover:bg-[#222230] transition-colors"
+            <a href="/cv.pdf" download className="ripple-host" onClick={createRipple} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '14px 28px', borderRadius: '999px',
+              background: 'var(--c-card)', border: '1px solid var(--c-border-md)',
+              color: 'var(--c-text)', fontWeight: '600', fontSize: '14px',
+              textDecoration: 'none', transition: 'border-color 0.2s',
+            }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--c-border-hover)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--c-border-md)')}
             >
-              <Download size={18} /> Download CV
+              <Download size={16} /> Download CV
             </a>
           </div>
         </div>
 
-        {/* Right — Photo placeholder */}
-        <div className="flex justify-center md:justify-end">
-          <div className="w-full max-w-lg aspect-[4/5] rounded-2xl bg-[#e8e8ec] flex items-center justify-center shadow-2xl shadow-black/50">
-            <div className="flex flex-col items-center gap-3 text-gray-400">
-              <ImageIcon size={64} strokeWidth={1} />
-            </div>
+        {/* Photo */}
+        <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'center', position: 'relative' }}>
+          <div className="hero-glow" style={{
+            position: 'absolute', width: '280px', height: '280px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)',
+            top: '50%', left: '50%', transform: 'translate(-50%,-50%)', pointerEvents: 'none',
+          }} />
+          <div className="hero-photo" style={{
+            width: '260px', height: '260px', borderRadius: '50%',
+            border: '2px solid var(--c-border-dark)',
+            position: 'relative', boxShadow: '0 0 60px rgba(99,102,241,0.1)',
+            overflow: 'hidden',
+          }}>
+            <img
+              src="/photo1.jpeg"
+              alt="Samni Hasnath"
+              style={{ width: '100%', height: '200%', objectFit: 'cover', display: 'block' }}
+            />
           </div>
         </div>
+      </div>
+
+      {/* Scroll hint */}
+      <div className="scroll-hint" style={{
+        position: 'absolute', bottom: '32px', left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        gap: '6px', color: 'var(--c-text-3)', animation: 'bounce 2s infinite',
+      }}>
+        <span style={{ fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase' }}>Scroll</span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
       </div>
     </section>
   );
