@@ -1,4 +1,7 @@
 const nodemailer = require('nodemailer');
+const Message = require('../models/Message');
+
+const escapeHtml = (str) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const sendContact = async (req, res) => {
   const { name, email, message } = req.body;
@@ -7,8 +10,10 @@ const sendContact = async (req, res) => {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
+  // Always save to DB first so messages are never lost
+  await Message.create({ name, email, message });
+
   try {
-    // Configure your transporter (update with your real SMTP credentials in .env)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -18,22 +23,22 @@ const sendContact = async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
+      from: `"${escapeHtml(name)}" <${email}>`,
       to: process.env.EMAIL_USER,
       subject: `Portfolio Contact from ${name}`,
       html: `
         <h2>New contact message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
       `,
     });
 
-    res.status(200).json({ message: 'Email sent successfully!' });
+    res.status(200).json({ message: 'Message sent successfully!' });
   } catch (error) {
     console.error('Email error:', error);
-    res.status(500).json({ error: 'Failed to send email.' });
+    res.status(200).json({ message: 'Message received!' });
   }
 };
 
