@@ -12,55 +12,49 @@ const LinkedinIcon = () => (
   </svg>
 );
 
-const TwitterIcon = () => (
-  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
-
 const socials = [
-  { icon: <GithubIcon />, href: '#', label: 'GitHub' },
-  { icon: <LinkedinIcon />, href: '#', label: 'LinkedIn' },
-  { icon: <TwitterIcon />, href: '#', label: 'Twitter / X' },
+  { icon: <GithubIcon />,    href: '#',                      label: 'GitHub' },
+  { icon: <LinkedinIcon />,  href: '#',                      label: 'LinkedIn' },
   { icon: <Mail size={20} />, href: 'mailto:hello@samni.dev', label: 'Email' },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#09090d] border-t border-[#1e1e2e]">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-          {/* Left */}
+    <footer style={{ background: 'var(--c-bg)', borderTop: '1px solid var(--c-border)' }}>
+      <div className="footer-inner" style={{ maxWidth: '1100px', margin: '0 auto', padding: '48px 32px' }}>
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', alignItems: 'center',
+          justifyContent: 'space-between', gap: '32px', marginBottom: '32px',
+        }}>
           <div>
-            <a href="#home" className="text-2xl font-bold text-blue-400 block mb-2">
+            <a href="#home" style={{
+              fontSize: '22px', fontWeight: '800', color: 'var(--c-accent)',
+              textDecoration: 'none', display: 'block', marginBottom: '8px',
+            }}>
               Samni
             </a>
-            <p className="text-gray-500 text-sm max-w-xs leading-relaxed">
-              Designing and developing professional digital experiences with a
-              focus on data and performance.
+            <p style={{ color: 'var(--c-text-3)', fontSize: '13px', maxWidth: '280px', lineHeight: '1.7' }}>
+              Designing and developing professional digital experiences with a focus on data and performance.
             </p>
           </div>
-
-          {/* Right — Social icons */}
-          <div className="flex items-center gap-5">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             {socials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                aria-label={social.label}
-                className="text-gray-500 hover:text-gray-300 transition-colors"
+              <a key={social.label} href={social.href} aria-label={social.label} style={{
+                color: 'var(--c-text-3)', textDecoration: 'none', transition: 'color 0.2s',
+              }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--c-text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--c-text-3)')}
               >
                 {social.icon}
               </a>
             ))}
           </div>
         </div>
-
-        {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-[#1e1e2e] text-center md:text-right">
-          <p className="text-gray-600 text-sm">
-            © {new Date().getFullYear()} Samni. All rights reserved. Built with
-            React &amp; Tailwind CSS.
+        <div style={{
+          paddingTop: '24px', borderTop: '1px solid var(--c-border)', textAlign: 'center',
+        }}>
+          <p style={{ color: 'var(--c-text-4)', fontSize: '13px' }}>
+            © {new Date().getFullYear()} Samni Hasnath. All rights reserved. Built with React &amp; Tailwind CSS.
           </p>
         </div>
       </div>
