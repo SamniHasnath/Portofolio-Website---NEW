@@ -1,80 +1,71 @@
 import { useState } from 'react';
-import { ArrowRight, Clock, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 
 const INITIAL_COUNT = 6;
 
 const articles = [
   {
     id: 1,
-    tag: 'REACT', tagColor: '#60a5fa', emoji: '⚛️',
-    title: 'Getting Started with React & Tailwind CSS — A Practical Guide',
-    excerpt: 'Learn how to set up a modern React project with Tailwind CSS from scratch. We cover project structure, component design patterns, and styling best practices.',
-    date: 'Mar 15, 2025', readTime: '5 min read',
-    bannerBg: 'linear-gradient(135deg, #1a2035, #0f1628)', href: '#',
+    tag: 'UI / UX', tagColor: '#60a5fa', emoji: '🖥️',
+    title: 'GUI Patterns and Design in Human Computer Interaction: A Beginner-Friendly Guide',
+    excerpt: 'Graphical User Interfaces (GUIs) are everywhere — from mobile apps to websites to desktop software. But have you ever wondered how they are designed and why they feel the way they do?',
+    bannerBg: 'linear-gradient(135deg, #1a2035, #0f1628)', href: 'https://medium.com/@samnauure0401',
   },
   {
     id: 2,
-    tag: 'DATA SCIENCE', tagColor: '#34d399', emoji: '📊',
-    title: 'From Raw Data to Insights: My Data Science Workflow',
-    excerpt: 'A walkthrough of the complete data science pipeline — data cleaning with Pandas, visualization with Matplotlib, and building a predictive model step by step.',
-    date: 'Feb 20, 2025', readTime: '8 min read',
-    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', href: '#',
+    tag: 'SECURITY', tagColor: '#a78bfa', emoji: '🔐',
+    title: 'How Login Systems Work: All Authentication Methods Explained',
+    excerpt: 'Learn how login systems work — from passwords and sessions to JWT, OAuth, and MFA — with simple explanations and practical examples for every method.',
+    bannerBg: 'linear-gradient(135deg, #1e1535, #110c24)', href: 'https://medium.com/@samnauure0401',
   },
   {
     id: 3,
-    tag: 'BACKEND', tagColor: '#a78bfa', emoji: '🔐',
-    title: 'Building Secure REST APIs with Node.js and Express',
-    excerpt: 'Best practices for designing and securing REST APIs — JWT authentication, input validation, rate limiting, and proper error handling patterns.',
-    date: 'Jan 10, 2025', readTime: '6 min read',
-    bannerBg: 'linear-gradient(135deg, #1e1535, #110c24)', href: '#',
+    tag: 'NETWORKING', tagColor: '#34d399', emoji: '🌐',
+    title: 'Network Commands',
+    excerpt: 'These are commands you use to check if your network is working and see basic info about your device — a quick reference for developers and students.',
+    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', href: 'https://medium.com/@samnauure0401',
   },
   {
     id: 4,
-    tag: 'DEVOPS', tagColor: '#fb923c', emoji: '🐳',
-    title: 'Dockerizing a Full-Stack App — From Dev to Production',
-    excerpt: 'Step-by-step guide to containerizing a Node + React application with Docker Compose, environment configs, and deploying to a VPS with Nginx.',
-    date: 'Dec 5, 2024', readTime: '7 min read',
-    bannerBg: 'linear-gradient(135deg, #2a1a08, #1a1005)', href: '#',
+    tag: 'CLI', tagColor: '#fb923c', emoji: '💻',
+    title: 'Master the Command Line: Practical CLI Guide for Students & Developers',
+    excerpt: 'A practical, platform-wise command line guide for Windows, macOS, and Linux learners — covering navigation, file operations, and productivity shortcuts.',
+    bannerBg: 'linear-gradient(135deg, #2a1a08, #1a1005)', href: 'https://medium.com/@samnauure0401',
   },
   {
     id: 5,
-    tag: 'TYPESCRIPT', tagColor: '#38bdf8', emoji: '🔷',
-    title: 'TypeScript Generics Explained With Real Examples',
-    excerpt: 'Generics can feel abstract at first. This post breaks them down using practical patterns you will actually encounter in everyday TypeScript projects.',
-    date: 'Nov 18, 2024', readTime: '6 min read',
-    bannerBg: 'linear-gradient(135deg, #0d2030, #081520)', href: '#',
+    tag: 'GIT', tagColor: '#facc15', emoji: '🌿',
+    title: 'All Stages in Git',
+    excerpt: 'Git is a distributed version control system that manages changes in source code. During its life cycle, a file in Git passes through multiple stages — here is what each one means.',
+    bannerBg: 'linear-gradient(135deg, #1a1a08, #101008)', href: 'https://medium.com/@samnauure0401',
   },
   {
     id: 6,
-    tag: 'MACHINE LEARNING', tagColor: '#f472b6', emoji: '🤖',
-    title: 'Training Your First Neural Network with PyTorch',
-    excerpt: 'A beginner-friendly introduction to building and training a simple feedforward neural network using PyTorch, covering tensors, layers, and optimizers.',
-    date: 'Oct 30, 2024', readTime: '10 min read',
-    bannerBg: 'linear-gradient(135deg, #2a1020, #1a0a15)', href: '#',
+    tag: 'WEB', tagColor: '#38bdf8', emoji: '🌍',
+    title: 'How the Internet Works: HTTP, DNS & the Request-Response Cycle',
+    excerpt: 'Every time you open a website, a lot happens behind the scenes. This article breaks down DNS resolution, HTTP requests, and how servers respond — in plain language.',
+    bannerBg: 'linear-gradient(135deg, #0d2030, #081520)', href: '#',
   },
   {
     id: 7,
-    tag: 'GIT', tagColor: '#facc15', emoji: '🌿',
-    title: 'Git Workflows That Actually Scale for Teams',
-    excerpt: 'Comparing Git Flow, trunk-based development, and GitHub Flow — when to use each, how to enforce them with branch rules, and tips for clean commit history.',
-    date: 'Sep 12, 2024', readTime: '5 min read',
-    bannerBg: 'linear-gradient(135deg, #1a1a08, #101008)', href: '#',
+    tag: 'LINUX', tagColor: '#34d399', emoji: '🐧',
+    title: 'Linux File System Explained for Beginners',
+    excerpt: 'The Linux file system can feel confusing at first. This guide walks through the directory structure — from /home to /etc to /var — and explains what each folder is actually for.',
+    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', href: '#',
   },
   {
     id: 8,
-    tag: 'DATABASES', tagColor: '#f97316', emoji: '🗄️',
-    title: 'PostgreSQL vs MongoDB — Choosing the Right Database',
-    excerpt: 'An honest comparison of relational and document databases with real benchmarks, schema design trade-offs, and guidance on which fits your use case.',
-    date: 'Aug 22, 2024', readTime: '9 min read',
-    bannerBg: 'linear-gradient(135deg, #1a1208, #100c05)', href: '#',
+    tag: 'BACKEND', tagColor: '#f472b6', emoji: '🔌',
+    title: 'Introduction to APIs: What They Are and How to Use Them',
+    excerpt: 'APIs power almost every modern app. This beginner-friendly post explains what an API is, how REST works, and how to make your first API call with real examples.',
+    bannerBg: 'linear-gradient(135deg, #2a1020, #1a0a15)', href: '#',
   },
   {
     id: 9,
-    tag: 'CAREER', tagColor: '#c084fc', emoji: '🚀',
-    title: 'How I Landed My First Dev Job With No CS Degree',
-    excerpt: 'The exact projects, learning path, and networking strategies I used to go from self-taught beginner to employed software developer in under a year.',
-    date: 'Jul 4, 2024', readTime: '12 min read',
-    bannerBg: 'linear-gradient(135deg, #1e1030, #12081e)', href: '#',
+    tag: 'DATABASE', tagColor: '#f97316', emoji: '🗄️',
+    title: 'SQL vs NoSQL: Which Database Should You Use?',
+    excerpt: 'Relational or document-based? This article compares SQL and NoSQL databases with clear examples, use cases, and a guide to help you pick the right one for your project.',
+    bannerBg: 'linear-gradient(135deg, #1a1208, #100c05)', href: '#',
   },
 ];
 
@@ -108,6 +99,28 @@ export default function Blog() {
               Blog Articles
             </h2>
           </div>
+          <a
+            href="https://medium.com/@samnauure0401"
+            target="_blank" rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '12px 24px', borderRadius: '12px',
+              background: 'var(--c-card)', border: '1px solid var(--c-border)',
+              color: 'var(--c-text)', fontWeight: '600', fontSize: '14px',
+              textDecoration: 'none', whiteSpace: 'nowrap',
+              transition: 'border-color 0.2s, transform 0.2s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = 'var(--c-border-hover)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = 'var(--c-border)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            View on Medium <ArrowRight size={15} />
+          </a>
           {hasMore && (
             <button
               onClick={() => setShowAll(!showAll)}
@@ -138,7 +151,7 @@ export default function Blog() {
           gap: '24px',
         }}>
           {visible.map((article) => (
-            <a key={article.id} href={article.href} style={{
+            <a key={article.id} href={article.href} target="_blank" rel="noopener noreferrer" style={{
               display: 'block', background: 'var(--c-card)',
               border: '1px solid var(--c-border)', borderRadius: '16px',
               overflow: 'hidden', textDecoration: 'none',
@@ -179,23 +192,6 @@ export default function Blog() {
                 }}>
                   {article.excerpt}
                 </p>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: '16px',
-                  paddingTop: '16px', borderTop: '1px solid var(--c-border)',
-                }}>
-                  <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '5px',
-                    color: 'var(--c-text-3)', fontSize: '12px',
-                  }}>
-                    <Calendar size={12} /> {article.date}
-                  </span>
-                  <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '5px',
-                    color: 'var(--c-text-3)', fontSize: '12px',
-                  }}>
-                    <Clock size={12} /> {article.readTime}
-                  </span>
-                </div>
               </div>
             </a>
           ))}

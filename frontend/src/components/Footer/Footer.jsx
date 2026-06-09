@@ -13,9 +13,9 @@ const LinkedinIcon = () => (
 );
 
 const socials = [
-  { icon: <GithubIcon />,    href: '#',                      label: 'GitHub' },
-  { icon: <LinkedinIcon />,  href: '#',                      label: 'LinkedIn' },
-  { icon: <Mail size={20} />, href: 'mailto:hello@samni.dev', label: 'Email' },
+  { icon: <GithubIcon />,    href: 'https://github.com/SamniHasnath',           label: 'GitHub' },
+  { icon: <LinkedinIcon />,  href: 'https://linkedin.com/in/samni-hasnath03',   label: 'LinkedIn' },
+  { icon: <Mail size={20} />, href: 'mailto:samnihasnath@gmail.com',             label: 'Email' },
 ];
 
 export default function Footer() {
@@ -39,9 +39,9 @@ export default function Footer() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             {socials.map((social) => (
-              <a key={social.label} href={social.href} aria-label={social.label} style={{
-                color: 'var(--c-text-3)', textDecoration: 'none', transition: 'color 0.2s',
-              }}
+              <a key={social.label} href={social.href} aria-label={social.label}
+                target="_blank" rel="noopener noreferrer"
+                style={{ color: 'var(--c-text-3)', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--c-text)')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'var(--c-text-3)')}
               >
