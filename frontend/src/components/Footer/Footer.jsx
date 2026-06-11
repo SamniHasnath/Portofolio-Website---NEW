@@ -31,7 +31,7 @@ export default function Footer() {
               fontSize: '22px', fontWeight: '800', color: 'var(--c-accent)',
               textDecoration: 'none', display: 'block', marginBottom: '8px',
             }}>
-              Samni
+              Samni Hasnath
             </a>
             <p style={{ color: 'var(--c-text-3)', fontSize: '13px', maxWidth: '280px', lineHeight: '1.7' }}>
               Designing and developing professional digital experiences with a focus on data and performance.

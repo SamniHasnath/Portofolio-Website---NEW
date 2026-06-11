@@ -18,7 +18,7 @@ const contactInfo = [
   { icon: <Mail size={20} />,   label: 'Email Me', value: 'samnihasnath@gmail.com',        href: 'mailto:samnihasnath@gmail.com' },
   { icon: <LinkedinIcon />,     label: 'LinkedIn', value: 'linkedin.com/in/samni-hasnath03', href: 'https://linkedin.com/in/samni-hasnath03' },
   { icon: <GithubIcon />,       label: 'GitHub',   value: 'github.com/SamniHasnath',        href: 'https://github.com/SamniHasnath' },
-  { icon: <MapPin size={20} />, label: 'Location', value: 'Colombo, Sri Lanka',              href: null },
+  { icon: <MapPin size={20} />, label: 'Location', value: 'Sainthamaruthu, Sri Lanka',              href: null },
 ];
 
 export default function Contact() {
