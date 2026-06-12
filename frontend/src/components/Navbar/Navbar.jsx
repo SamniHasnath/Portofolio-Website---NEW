@@ -5,7 +5,7 @@ import { createRipple } from '../../utils/ripple';
 const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
-  { label: 'Education', href: '#education' },
+  { label: 'Education & Volunteer', href: '#education' },
   { label: 'Certifications', href: '#certifications' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
