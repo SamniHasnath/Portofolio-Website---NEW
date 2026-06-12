@@ -22,7 +22,7 @@ export default function About() {
           boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
         }}>
           <img
-            src="/Photo2.jpeg"
+            src="/photo1.jpeg"
             alt="Samni Hasnath"
             style={{ width: '100%', height: '150%', objectFit: 'cover', display: 'block' }}
           />
