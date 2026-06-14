@@ -5,11 +5,12 @@ import { createRipple } from '../../utils/ripple';
 const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
-  { label: 'Education', href: '#education' },
+  { label: 'Education & Volunteer', href: '#education' },
   { label: 'Certifications', href: '#certifications' },
+  { label: 'Achievements', href: '#achievements' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Blog', href: '#blog' },
+  { label: 'Blogs', href: '#blog' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -55,7 +56,7 @@ export default function Navbar({ theme, toggleTheme }) {
               fontSize: '22px', fontWeight: '800',
               color: 'var(--c-accent)', letterSpacing: '-0.5px',
             }}>
-              Samni
+              Samni Hasnath
             </span>
           </a>
 

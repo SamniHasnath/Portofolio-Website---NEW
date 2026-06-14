@@ -1,14 +1,25 @@
-import { LayoutDashboard, Code2, Database, PieChart, Settings } from 'lucide-react';
+import { useState } from 'react';
+import { LayoutDashboard, Server, Database, PieChart, Wrench, Cloud, Palette, PenTool, ChevronDown, ChevronUp } from 'lucide-react';
+
+const INITIAL_COUNT = 6;
 
 const skillGroups = [
-  { Icon: LayoutDashboard, title: 'Frontend', tags: ['React', 'Tailwind CSS', 'JavaScript', 'HTML/CSS'] },
-  { Icon: Code2,          title: 'Backend',  tags: ['Node.js', 'Express.js', 'REST APIs'] },
-  { Icon: Database,       title: 'Databases', tags: ['PostgreSQL', 'MySQL', 'MongoDB'] },
-  { Icon: PieChart,       title: 'Data Science', tags: ['Python', 'Pandas', 'Matplotlib', 'Excel'] },
-  { Icon: Settings,       title: 'Tools', tags: ['Git / GitHub', 'VS Code', 'Postman', 'Docker'] },
+  { Icon: LayoutDashboard, title: 'Frontend', tags: ['React', 'Tailwind CSS','Bootstrap', 'JavaScript', 'HTML/CSS'] },
+  { Icon: Server,         title: 'Backend',  tags: ['Node.js', 'Express.js', 'RESTful APIs','Authentication & Authorization','Server-side Development'] },
+  { Icon: Database,       title: 'Databases', tags: ['PostgreSQL', 'MySQL', 'MongoDB','Database Design & Management'] },
+  { Icon: PieChart,       title: 'Data Science', tags: ['Python','NumPy', 'Pandas', 'Matplotlib', 'Excel','Statistics'] },
+  { Icon: Wrench,         title: 'Tools', tags: ['Git / GitHub', 'VS Code', 'Postman', 'Docker'] },
+  { Icon: Cloud,          title: 'Cloud & Deployment',  tags: ['GitHub Pages', 'Vercel', 'Render','Netlify'] },
+  { Icon: Palette,        title: 'Graphic Design',  tags: ['Adobe Photoshop', 'Adobe Illustrator', 'Adobe Indesign','Canva'] },
+  { Icon: PenTool,        title: 'UI/UX Design',  tags: ['Figma', 'Wireframing', 'Adobe XD','Prototyping'] },
 ];
 
 export default function Skills() {
+  const [showAll, setShowAll] = useState(false);
+
+  const visible = showAll ? skillGroups : skillGroups.slice(0, INITIAL_COUNT);
+  const hasMore = skillGroups.length > INITIAL_COUNT;
+
   return (
     <section id="skills" className="sec" style={{
       padding: '100px 24px', background: 'var(--c-bg)',
@@ -34,7 +45,7 @@ export default function Skills() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '20px',
         }}>
-          {skillGroups.map(({ Icon, title, tags }) => (
+          {visible.map(({ Icon, title, tags }) => (
             <div key={title} style={{
               background: 'var(--c-card)', border: '1px solid var(--c-border)',
               borderRadius: '16px', padding: '24px', transition: 'border-color 0.2s',
@@ -60,6 +71,35 @@ export default function Skills() {
             </div>
           ))}
         </div>
+
+        {hasMore && (
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <button
+              onClick={() => setShowAll(!showAll)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '14px 32px', borderRadius: '12px',
+                background: 'var(--c-card)', border: '1px solid var(--c-border)',
+                color: 'var(--c-text)', fontWeight: '600', fontSize: '14px',
+                cursor: 'pointer', transition: 'border-color 0.2s, transform 0.2s',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--c-border-hover)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--c-border)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              {showAll ? (
+                <><ChevronUp size={16} /> Show Less</>
+              ) : (
+                <><ChevronDown size={16} /> View More ({skillGroups.length})</>
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

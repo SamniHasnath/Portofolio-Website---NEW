@@ -9,63 +9,63 @@ const articles = [
     tag: 'UI / UX', tagColor: '#60a5fa', emoji: '🖥️',
     title: 'GUI Patterns and Design in Human Computer Interaction: A Beginner-Friendly Guide',
     excerpt: 'Graphical User Interfaces (GUIs) are everywhere — from mobile apps to websites to desktop software. But have you ever wondered how they are designed and why they feel the way they do?',
-    bannerBg: 'linear-gradient(135deg, #1a2035, #0f1628)', href: 'https://medium.com/@samnauure0401',
+    bannerBg: 'linear-gradient(135deg, #1a2035, #0f1628)', image: '/blog1.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 2,
     tag: 'SECURITY', tagColor: '#a78bfa', emoji: '🔐',
     title: 'How Login Systems Work: All Authentication Methods Explained',
     excerpt: 'Learn how login systems work — from passwords and sessions to JWT, OAuth, and MFA — with simple explanations and practical examples for every method.',
-    bannerBg: 'linear-gradient(135deg, #1e1535, #110c24)', href: 'https://medium.com/@samnauure0401',
+    bannerBg: 'linear-gradient(135deg, #1e1535, #110c24)', image: '/blog2.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 3,
     tag: 'NETWORKING', tagColor: '#34d399', emoji: '🌐',
     title: 'Network Commands',
     excerpt: 'These are commands you use to check if your network is working and see basic info about your device — a quick reference for developers and students.',
-    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', href: 'https://medium.com/@samnauure0401',
+    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', image: '/blog3.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 4,
     tag: 'CLI', tagColor: '#fb923c', emoji: '💻',
     title: 'Master the Command Line: Practical CLI Guide for Students & Developers',
     excerpt: 'A practical, platform-wise command line guide for Windows, macOS, and Linux learners — covering navigation, file operations, and productivity shortcuts.',
-    bannerBg: 'linear-gradient(135deg, #2a1a08, #1a1005)', href: 'https://medium.com/@samnauure0401',
+    bannerBg: 'linear-gradient(135deg, #2a1a08, #1a1005)', image: '/blog4.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 5,
     tag: 'GIT', tagColor: '#facc15', emoji: '🌿',
     title: 'All Stages in Git',
     excerpt: 'Git is a distributed version control system that manages changes in source code. During its life cycle, a file in Git passes through multiple stages — here is what each one means.',
-    bannerBg: 'linear-gradient(135deg, #1a1a08, #101008)', href: 'https://medium.com/@samnauure0401',
+    bannerBg: 'linear-gradient(135deg, #1a1a08, #101008)', image: '/blog5.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 6,
     tag: 'WEB', tagColor: '#38bdf8', emoji: '🌍',
     title: 'How the Internet Works: HTTP, DNS & the Request-Response Cycle',
     excerpt: 'Every time you open a website, a lot happens behind the scenes. This article breaks down DNS resolution, HTTP requests, and how servers respond — in plain language.',
-    bannerBg: 'linear-gradient(135deg, #0d2030, #081520)', href: '#',
+    bannerBg: 'linear-gradient(135deg, #0d2030, #081520)', image: '/blog6.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 7,
     tag: 'LINUX', tagColor: '#34d399', emoji: '🐧',
     title: 'Linux File System Explained for Beginners',
     excerpt: 'The Linux file system can feel confusing at first. This guide walks through the directory structure — from /home to /etc to /var — and explains what each folder is actually for.',
-    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', href: '#',
+    bannerBg: 'linear-gradient(135deg, #0f2520, #091a14)', image: '/blog7.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 8,
     tag: 'BACKEND', tagColor: '#f472b6', emoji: '🔌',
     title: 'Introduction to APIs: What They Are and How to Use Them',
     excerpt: 'APIs power almost every modern app. This beginner-friendly post explains what an API is, how REST works, and how to make your first API call with real examples.',
-    bannerBg: 'linear-gradient(135deg, #2a1020, #1a0a15)', href: '#',
+    bannerBg: 'linear-gradient(135deg, #2a1020, #1a0a15)', image: '/blog8.png', href: 'https://medium.com/@samnaufer0401',
   },
   {
     id: 9,
     tag: 'DATABASE', tagColor: '#f97316', emoji: '🗄️',
     title: 'SQL vs NoSQL: Which Database Should You Use?',
     excerpt: 'Relational or document-based? This article compares SQL and NoSQL databases with clear examples, use cases, and a guide to help you pick the right one for your project.',
-    bannerBg: 'linear-gradient(135deg, #1a1208, #100c05)', href: '#',
+    bannerBg: 'linear-gradient(135deg, #1a1208, #100c05)', image: '/blog9.png', href: 'https://medium.com/@samnaufer0401',
   },
 ];
 
@@ -100,7 +100,7 @@ export default function Blog() {
             </h2>
           </div>
           <a
-            href="https://medium.com/@samnauure0401"
+            href="https://medium.com/@samnaufer0401"
             target="_blank" rel="noopener noreferrer"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
@@ -169,8 +169,13 @@ export default function Blog() {
               <div style={{
                 width: '100%', height: '160px', background: article.bannerBg,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '52px',
+                overflow: 'hidden',
               }}>
-                {article.emoji}
+                {article.image ? (
+                  <img src={article.image} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  article.emoji
+                )}
               </div>
 
               <div style={{ padding: '24px' }}>

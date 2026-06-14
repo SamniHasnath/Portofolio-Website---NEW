@@ -1,7 +1,41 @@
 import { useState } from 'react';
-import { ExternalLink, ChevronDown, ChevronUp, LayoutGrid, Layers, Globe, Database, BarChart2, FolderOpen } from 'lucide-react';
+import { ExternalLink, ChevronDown, ChevronUp, LayoutGrid, Layers, Globe, Database, BarChart2, FolderOpen, LayoutDashboard, Server, Wrench, RotateCw, RotateCcw, Bot, Palette } from 'lucide-react';
 
 const INITIAL_COUNT = 6;
+
+// Maps each tech tag to a stack category so the back of the card can group them
+const TAG_CATEGORY = {
+  REACT: 'Frontend', TAILWIND: 'Frontend', CSS: 'Frontend', JAVASCRIPT: 'Frontend', 'HTML/CSS': 'Frontend', EJS: 'Frontend',
+  'NODE.JS': 'Backend', EXPRESS: 'Backend', JWT: 'Backend', PHP: 'Backend',
+  POSTGRESQL: 'Database', MYSQL: 'Database', MONGODB: 'Database',
+  'TMDB API': 'API', 'OPENWEATHER API': 'API', 'REST API': 'API', 'QR API': 'API',
+  PYTHON: 'Data Science', PANDAS: 'Data Science', MATPLOTLIB: 'Data Science', SEABORN: 'Data Science', NUMPY: 'Data Science',
+  'POWER BI': 'Data Science', DAX: 'Data Science', 'DATA VISUALIZATION': 'Data Science',
+  'SPEECH RECOGNITION': 'AI/ML', 'TEXT-TO-SPEECH': 'AI/ML', 'OPENAI API': 'AI/ML',
+  FIGMA: 'UI/UX', 'ADOBE XD': 'UI/UX', 'ADOBE ILLUSTRATOR': 'UI/UX', 'ADOBE PHOTOSHOP': 'UI/UX', CANVA: 'UI/UX', 'WIREFRAMING': 'UI/UX', 'PROTOTYPING': 'UI/UX',
+};
+
+const STACK_ORDER = ['Frontend', 'Backend', 'Database', 'API', 'AI/ML', 'Data Science', 'UI/UX', 'Other'];
+
+const STACK_META = {
+  Frontend:       { icon: LayoutDashboard, color: '#60a5fa', bg: 'rgba(96,165,250,0.12)',  border: 'rgba(96,165,250,0.3)'  },
+  Backend:        { icon: Server,          color: '#34d399', bg: 'rgba(52,211,153,0.12)',  border: 'rgba(52,211,153,0.3)'  },
+  Database:       { icon: Database,        color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)' },
+  API:            { icon: Globe,           color: '#fbbf24', bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.3)'  },
+  'AI/ML':        { icon: Bot,             color: '#2dd4bf', bg: 'rgba(45,212,191,0.12)',  border: 'rgba(45,212,191,0.3)'  },
+  'Data Science': { icon: BarChart2,       color: '#f472b6', bg: 'rgba(244,114,182,0.12)', border: 'rgba(244,114,182,0.3)' },
+  'UI/UX':        { icon: Palette,         color: '#fb923c', bg: 'rgba(251,146,60,0.12)',  border: 'rgba(251,146,60,0.3)'  },
+  Other:          { icon: Wrench,          color: '#9ca3af', bg: 'rgba(156,163,175,0.12)', border: 'rgba(156,163,175,0.3)' },
+};
+
+function groupTagsByStack(tags) {
+  const groups = {};
+  tags.forEach((tag) => {
+    const category = TAG_CATEGORY[tag] || 'Other';
+    (groups[category] = groups[category] || []).push(tag);
+  });
+  return STACK_ORDER.filter((category) => groups[category]).map((category) => ({ category, tags: groups[category] }));
+}
 
 const GithubIcon = () => (
   <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
@@ -10,12 +44,12 @@ const GithubIcon = () => (
 );
 
 const CATEGORIES = [
-  { label: 'All',            icon: LayoutGrid  },
-  { label: 'Full Stack',     icon: Layers      },
-  { label: 'API / Frontend', icon: Globe       },
-  { label: 'Backend / DB',   icon: Database    },
-  { label: 'Data Science',   icon: BarChart2   },
-  { label: 'Other',          icon: FolderOpen  },
+  { label: 'All',          icon: LayoutGrid },
+  { label: 'Full Stack',   icon: Layers     },
+  { label: 'Data Science', icon: BarChart2  },
+  { label: 'AI/ML',        icon: Bot        },
+  { label: 'UI/UX',        icon: Palette    },
+  { label: 'Other',        icon: FolderOpen },
 ];
 
 const projects = [
@@ -52,32 +86,10 @@ const projects = [
     githubUrl: 'https://github.com/SamniHasnath/book-notes-app',
     demoUrl: '#',
   },
-  {
-    id: 4,
-    title: 'Elder Management System',
-    category: 'Full Stack',
-    type: 'Personal',
-    tags: ['REACT', 'NODE.JS', 'EXPRESS', 'POSTGRESQL'],
-    emoji: '🏥',
-    description: 'Care management platform for tracking elderly residents, health records, and caregiver assignments with a full CRUD backend.',
-    githubUrl: 'https://github.com/SamniHasnath/elder-management-system',
-    demoUrl: '#',
-  },
-  {
-    id: 5,
-    title: 'Authentication System',
-    category: 'Full Stack',
-    type: 'Personal',
-    tags: ['NODE.JS', 'EXPRESS', 'JWT', 'POSTGRESQL'],
-    emoji: '🔐',
-    description: 'Secure user auth system with JWT-based login, registration, protected routes, and session management built from scratch.',
-    githubUrl: 'https://github.com/SamniHasnath/authentication-system',
-    demoUrl: '#',
-  },
-  {
+      {
     id: 6,
     title: 'Movie Website',
-    category: 'API / Frontend',
+    category: 'Full Stack',
     type: 'Personal',
     tags: ['REACT', 'TAILWIND', 'TMDB API'],
     emoji: '🎬',
@@ -88,7 +100,7 @@ const projects = [
   {
     id: 7,
     title: 'Weather App',
-    category: 'API / Frontend',
+    category: 'Full Stack',
     type: 'Personal',
     tags: ['REACT', 'OPENWEATHER API', 'CSS'],
     emoji: '⛅',
@@ -96,28 +108,7 @@ const projects = [
     githubUrl: 'https://github.com/SamniHasnath/weather-app',
     demoUrl: '#',
   },
-  {
-    id: 8,
-    title: 'Joke Personalizer App',
-    category: 'API / Frontend',
-    type: 'Personal',
-    tags: ['JAVASCRIPT', 'REST API', 'HTML/CSS'],
-    emoji: '😄',
-    description: 'Fun app that fetches and personalizes jokes using an external joke API, with category selection and display controls.',
-    githubUrl: 'https://github.com/SamniHasnath/joke-personalizer-app',
-    demoUrl: '#',
-  },
-  {
-    id: 9,
-    title: 'QR Code Generator',
-    category: 'API / Frontend',
-    type: 'Personal',
-    tags: ['NODE.JS', 'EXPRESS', 'QR API'],
-    emoji: '📱',
-    description: 'Web tool that generates downloadable QR codes from any URL or text input using a QR code generation API.',
-    githubUrl: 'https://github.com/SamniHasnath/qr-code-generator',
-    demoUrl: '#',
-  },
+   
   {
     id: 15,
     title: 'Sales Analysis Dashboard',
@@ -131,19 +122,41 @@ const projects = [
   },
   {
     id: 16,
-    title: 'Data Visualization Project',
+    title: 'HR Analytics Dashboard',
     category: 'Data Science',
-    type: 'Personal',
-    tags: ['PYTHON', 'SEABORN', 'NUMPY'],
+    type: 'Group',
+    tags: ['POWER BI', 'DAX', 'DATA VISUALIZATION'],
     emoji: '📈',
-    description: 'Exploratory data analysis using real-world datasets — includes correlation heatmaps, distribution plots, and statistical summaries.',
-    githubUrl: 'https://github.com/SamniHasnath/data-visualization',
+    description: 'Interactive Global HR Analytics: Employee Attrition dashboard built on the IBM HR Analytics dataset, with dynamic filters, KPI executive summary cards, and visual insights for data-driven HR decision-making.',
+    githubUrl: '#',
     demoUrl: '#',
   },
   {
+    id: 17,
+    title: 'Jarvis AI Assistant',
+    category: 'AI/ML',
+    type: 'Personal',
+    tags: ['PYTHON', 'SPEECH RECOGNITION', 'TEXT-TO-SPEECH', 'OPENAI API'],
+    emoji: '🤖',
+    description: 'Browser-based voice assistant with a FastAPI backend for command routing and OpenAI fallback, while speech recognition and text-to-speech run in the browser via the Web Speech API. Handles weather, news, jokes, Wikipedia lookups, web/YouTube search, timers, and more.',
+    githubUrl: '#',
+    demoUrl: 'https://jarvisweb-ryua.onrender.com',
+  },
+  {
+    id: 18,
+    title: "ShePulse – Women's Wellness App",
+    category: 'UI/UX',
+    type: 'Group',
+    tags: ['FIGMA', 'WIREFRAMING', 'PROTOTYPING'],
+    emoji: '💗',
+    description: 'UI specification document for ShePulse, a women\'s wellness app — covering wireframes, interactive prototypes, and a complete design system to guide development.',
+    githubUrl: '#',
+    demoUrl: '#',
+  },
+    {
     id: 10,
     title: 'Quiz App',
-    category: 'Backend / DB',
+    category: 'Full Stack',
     type: 'Personal',
     tags: ['NODE.JS', 'EXPRESS', 'POSTGRESQL', 'EJS'],
     emoji: '🧠',
@@ -151,21 +164,10 @@ const projects = [
     githubUrl: 'https://github.com/SamniHasnath/quiz-app',
     demoUrl: '#',
   },
-  {
-    id: 11,
-    title: 'Notes App',
-    category: 'Backend / DB',
-    type: 'Personal',
-    tags: ['NODE.JS', 'EXPRESS', 'POSTGRESQL', 'EJS'],
-    emoji: '📝',
-    description: 'Simple but functional note-taking app with full CRUD operations, persistent storage in PostgreSQL, and clean UI.',
-    githubUrl: 'https://github.com/SamniHasnath/notes-app',
-    demoUrl: '#',
-  },
-  {
+    {
     id: 12,
     title: 'Pipelinehub',
-    category: 'Other',
+    category: 'Full Stack',
     type: 'Personal',
     tags: ['REACT', 'NODE.JS', 'EXPRESS'],
     emoji: '🚀',
@@ -176,7 +178,7 @@ const projects = [
   {
     id: 13,
     title: 'Sports Management System',
-    category: 'Other',
+    category: 'Full Stack',
     type: 'Group',
     tags: ['PHP', 'MYSQL', 'HTML/CSS'],
     emoji: '⚽',
@@ -196,6 +198,175 @@ const projects = [
     demoUrl: '#',
   },
 ];
+
+function ProjectCard({ project }) {
+  const [flipped, setFlipped] = useState(false);
+  const stack = groupTagsByStack(project.tags);
+  const stopFlip = (e) => e.stopPropagation();
+
+  const links = (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <a href={project.demoUrl !== '#' ? project.demoUrl : undefined} target="_blank" rel="noopener noreferrer" onClick={stopFlip} style={{
+        display: 'inline-flex', alignItems: 'center', gap: '6px',
+        fontSize: '13px', fontWeight: '700',
+        padding: '6px 12px', borderRadius: '8px',
+        border: '1px solid var(--c-border)',
+        background: project.demoUrl !== '#' ? 'rgba(255,255,255,0.04)' : 'transparent',
+        color: project.demoUrl !== '#' ? 'var(--c-text)' : 'var(--c-text-2)',
+        textDecoration: 'none', transition: 'all 0.2s',
+        cursor: project.demoUrl !== '#' ? 'pointer' : 'default',
+        opacity: project.demoUrl !== '#' ? 1 : 0.45,
+      }}
+        onMouseEnter={e => { if (project.demoUrl !== '#') { e.currentTarget.style.color = 'var(--c-accent)'; e.currentTarget.style.borderColor = 'var(--c-accent)'; } }}
+        onMouseLeave={e => { if (project.demoUrl !== '#') { e.currentTarget.style.color = 'var(--c-text)'; e.currentTarget.style.borderColor = 'var(--c-border)'; } }}
+      >
+        Live Preview <ExternalLink size={13} />
+      </a>
+      {project.githubUrl !== '#' && (
+        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={stopFlip} style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          fontSize: '13px', fontWeight: '500',
+          padding: '6px 12px', borderRadius: '8px',
+          border: '1px solid var(--c-border)', background: 'rgba(255,255,255,0.04)',
+          color: 'var(--c-text-2)',
+          textDecoration: 'none', transition: 'all 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--c-text)'; e.currentTarget.style.borderColor = 'var(--c-border-hover)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--c-text-2)'; e.currentTarget.style.borderColor = 'var(--c-border)'; }}
+        >
+          Source Code <GithubIcon />
+        </a>
+      )}
+    </div>
+  );
+
+  return (
+    <div
+      className={`project-card${flipped ? ' flipped' : ''}`}
+      onClick={() => setFlipped(f => !f)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlipped(f => !f); } }}
+      aria-label={`${project.title} — click to ${flipped ? 'show project info' : 'view tech stack'}`}
+    >
+      <div className="project-card-inner">
+        {/* FRONT */}
+        <div className="project-card-face" style={{
+          background: 'var(--c-card)', border: '1px solid var(--c-border)', borderRadius: '16px',
+        }}>
+          <div style={{
+            width: '100%', height: '180px',
+            background: 'linear-gradient(135deg, #1a1a2e, #0f0f1a)',
+            display: 'flex', alignItems: 'center',
+            justifyContent: 'center', fontSize: '56px',
+            position: 'relative', flexShrink: 0,
+          }}>
+            {project.emoji}
+            <span style={{
+              position: 'absolute', top: '14px', left: '14px',
+              display: 'inline-flex', alignItems: 'center', gap: '5px',
+              fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px',
+              padding: '4px 10px', borderRadius: '6px',
+              background: 'rgba(255,255,255,0.06)', color: 'var(--c-text-2)',
+              border: '1px solid var(--c-border-md)',
+            }}>
+              <RotateCw size={11} /> Tech Stack
+            </span>
+            <span style={{
+              position: 'absolute', top: '14px', right: '14px',
+              fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px',
+              padding: '4px 10px', borderRadius: '6px',
+              background: project.type === 'Group'
+                ? 'rgba(99, 179, 237, 0.15)'
+                : 'rgba(154, 117, 234, 0.15)',
+              color: project.type === 'Group' ? '#63b3ed' : '#9a75ea',
+              border: `1px solid ${project.type === 'Group' ? 'rgba(99,179,237,0.3)' : 'rgba(154,117,234,0.3)'}`,
+            }}>
+              {project.type === 'Group' ? 'Group' : 'Personal'}
+            </span>
+          </div>
+
+          <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '12px' }}>
+              {project.tags.map((tag) => (
+                <span key={tag} style={{
+                  fontSize: '11px', fontWeight: '700',
+                  color: 'var(--c-accent)', letterSpacing: '1px',
+                }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h3 style={{ fontSize: '19px', fontWeight: '700', color: 'var(--c-text)', marginBottom: '10px' }}>
+              {project.title}
+            </h3>
+            <p style={{
+              color: 'var(--c-text-2)', fontSize: '14px', lineHeight: '1.7', marginBottom: '20px',
+              display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+            }}>
+              {project.description}
+            </p>
+            <div style={{ marginTop: 'auto' }}>{links}</div>
+          </div>
+        </div>
+
+        {/* BACK */}
+        <div className="project-card-face project-card-back" style={{
+          background: 'var(--c-card)', border: '1px solid var(--c-border)', borderRadius: '16px',
+          padding: '28px', display: 'flex', flexDirection: 'column',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+            <span style={{ fontSize: '28px' }}>{project.emoji}</span>
+            <h3 style={{ fontSize: '17px', fontWeight: '700', color: 'var(--c-text)' }}>{project.title}</h3>
+          </div>
+          <p style={{
+            color: 'var(--c-text-3)', fontSize: '11px', fontWeight: '700',
+            letterSpacing: '2px', textTransform: 'uppercase', margin: '10px 0 16px',
+          }}>
+            Tech Stack
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flex: 1, minHeight: 0, overflowY: 'auto' }}>
+            {stack.map(({ category, tags }) => {
+              const meta = STACK_META[category];
+              const Icon = meta.icon;
+              return (
+                <div key={category}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', color: meta.color }}>
+                    <Icon size={14} />
+                    <span style={{ fontSize: '11px', fontWeight: '700', letterSpacing: '1.5px', textTransform: 'uppercase' }}>
+                      {category}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {tags.map((tag) => (
+                      <span key={tag} style={{
+                        fontSize: '11px', fontWeight: '600', padding: '4px 10px',
+                        borderRadius: '999px', background: meta.bg,
+                        border: `1px solid ${meta.border}`, color: meta.color,
+                      }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--c-border)' }}>{links}</div>
+
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+            marginTop: '12px', color: 'var(--c-text-3)', fontSize: '11px',
+          }}>
+            <RotateCcw size={12} /> Click to flip back
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -296,88 +467,7 @@ export default function Projects() {
           gap: '24px',
         }}>
           {visible.map((project) => (
-            <div key={project.id} style={{
-              background: 'var(--c-card)', border: '1px solid var(--c-border)',
-              borderRadius: '16px', overflow: 'hidden',
-              transition: 'border-color 0.2s, transform 0.2s',
-            }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = 'var(--c-border-hover)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'var(--c-border)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              <div style={{
-                width: '100%', height: '180px',
-                background: 'linear-gradient(135deg, #1a1a2e, #0f0f1a)',
-                display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: '56px',
-                position: 'relative',
-              }}>
-                {project.emoji}
-                <span style={{
-                  position: 'absolute', top: '14px', right: '14px',
-                  fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px',
-                  padding: '4px 10px', borderRadius: '6px',
-                  background: project.type === 'Group'
-                    ? 'rgba(99, 179, 237, 0.15)'
-                    : 'rgba(154, 117, 234, 0.15)',
-                  color: project.type === 'Group' ? '#63b3ed' : '#9a75ea',
-                  border: `1px solid ${project.type === 'Group' ? 'rgba(99,179,237,0.3)' : 'rgba(154,117,234,0.3)'}`,
-                }}>
-                  {project.type === 'Group' ? 'Group' : 'Personal'}
-                </span>
-              </div>
-
-              <div style={{ padding: '24px' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '12px' }}>
-                  {project.tags.map((tag) => (
-                    <span key={tag} style={{
-                      fontSize: '11px', fontWeight: '700',
-                      color: 'var(--c-accent)', letterSpacing: '1px',
-                    }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <h3 style={{ fontSize: '19px', fontWeight: '700', color: 'var(--c-text)', marginBottom: '10px' }}>
-                  {project.title}
-                </h3>
-                <p style={{ color: 'var(--c-text-2)', fontSize: '14px', lineHeight: '1.7', marginBottom: '20px' }}>
-                  {project.description}
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                  <a href={project.demoUrl !== '#' ? project.demoUrl : undefined} target="_blank" rel="noopener noreferrer" style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    fontSize: '13px', fontWeight: '700',
-                    color: project.demoUrl !== '#' ? 'var(--c-text)' : 'var(--c-text-2)',
-                    textDecoration: 'none', transition: 'color 0.2s',
-                    cursor: project.demoUrl !== '#' ? 'pointer' : 'default',
-                    opacity: project.demoUrl !== '#' ? 1 : 0.45,
-                  }}
-                    onMouseEnter={e => { if (project.demoUrl !== '#') e.currentTarget.style.color = 'var(--c-accent)'; }}
-                    onMouseLeave={e => { if (project.demoUrl !== '#') e.currentTarget.style.color = 'var(--c-text)'; }}
-                  >
-                    Live Preview <ExternalLink size={13} />
-                  </a>
-                  {project.githubUrl !== '#' && (
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '6px',
-                      fontSize: '13px', fontWeight: '500', color: 'var(--c-text-2)',
-                      textDecoration: 'none', transition: 'color 0.2s',
-                    }}
-                      onMouseEnter={e => (e.currentTarget.style.color = 'var(--c-text)')}
-                      onMouseLeave={e => (e.currentTarget.style.color = 'var(--c-text-2)')}
-                    >
-                      Source Code <GithubIcon />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
 
